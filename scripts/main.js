@@ -18,20 +18,20 @@ $(function() {
     Main.prototype.createScene = function () {
         // Create a basic BJS Scene object
         this.scene = new BABYLON.Scene(this.engine);
-        this.scene.enablePhysics(new BABYLON.Vector3(0,-10,0), new BABYLON.OimoJSPlugin());
+        this.scene.enablePhysics(new BABYLON.Vector3(0,-.1,0), new BABYLON.OimoJSPlugin());
         // Set up the camera
         this.setCamera();
         // create a basic light, aiming 0, 1, 0 - meaning, to the sky
         this.light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), this.scene);
         // create a built-in "sphere" shape; its constructor takes 5 params: name, width, depth, subdivisions, scene
         this.ground = BABYLON.Mesh.CreateGround('ground1', 6, 6, 2, this.scene);
-        this.ground.setPhysicState({imposter:BABYLON.PhysicsEngine.BoxImpostor, move:false});
+        this.ground.physicsImpostor = new BABYLON.PhysicsImpostor(this.ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9 }, this.scene);
         
         
         this.sphere = BABYLON.Mesh.CreateSphere('sphere1', 16, 2, this.scene);
         // move the sphere upward of 1/2 of its height
-        this.sphere.position.y = 1;
-        this.sphere.setPhysicsState({imposter:BABYLON.PhysicsEngine.BoxImpostor, move: true});
+        this.sphere.position.y = 50;
+        this.sphere.physicsImpostor = new BABYLON.PhysicsImpostor(this.sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0.9 }, this.scene);
         
         // create this scene
         // Try to add dynamic drawing  
